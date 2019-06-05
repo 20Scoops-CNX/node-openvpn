@@ -8,7 +8,7 @@ RUN apk --no-cache --no-progress upgrade && \
 
 RUN npm install -g yarn@0.18.1
 
-COPY ./vpn /vpn
-RUN chmod 600 -R /vpn
+# COPY ./vpn /vpn
+# RUN chmod 600 -R /vpn
 
 CMD [ "node" ]
