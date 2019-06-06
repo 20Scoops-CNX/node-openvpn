@@ -9,7 +9,7 @@ jobs:
       - aws-ecr/ecr-login
       - run:
           name: 'pull image'
-          command: docker pull mycompany/myrepo:1.1 | egrep -v "^[[:space:]]*$|^#"
+          command: docker pull 661123053817.dkr.ecr.eu-central-1.amazonaws.com/procom-node-vpn:latest | egrep -v "^[[:space:]]*$|^#"
       - run:
           name: 'start container'
           command: |
@@ -20,7 +20,7 @@ jobs:
               -e "AWS_SECRET_KEY=$AWS_SECRET_KEY" \
               -v "$(pwd)"/../project:/home/circleci/project \
               --name node-vpn \
-              mycompany/myrepo:1.1 \
+              661123053817.dkr.ecr.eu-central-1.amazonaws.com/procom-node-vpn:latest \
               curl 192.168.2.41:8080
 workflows:
   version: 2
