@@ -1,0 +1,29 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@3.1.0
+jobs:
+  deploy-vpn:
+    machine: true
+    steps:
+      - checkout
+      - aws-ecr/ecr-login
+      - run:
+          name: 'pull image'
+          command: docker pull mycompany/myrepo:1.1 | egrep -v "^[[:space:]]*$|^#"
+      - run:
+          name: 'start container'
+          command: |
+            docker run --cap-add=NET_ADMIN --device=/dev/net/tun \
+              -e "CI=$CI" \
+              -e "CIRCLE_BRANCH=$CIRCLE_BRANCH" \
+              -e "AWS_ACCESS_KEY=$AWS_ACCESS_KEY" \
+              -e "AWS_SECRET_KEY=$AWS_SECRET_KEY" \
+              -v "$(pwd)"/../project:/home/circleci/project \
+              --name node-vpn \
+              mycompany/myrepo:1.1 \
+              curl 192.168.2.41:8080
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy-vpn

@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  vpn:
+    build: .
+    cap_add:
+      - net_admin
+    security_opt:
+      - label:disable
+    stdin_open: true
+    tty: true
+    volumes:
+      - /dev/net:/dev/net:z
