@@ -14,11 +14,12 @@ jobs:
           name: 'start container'
           command: |
             set -e
-            docker run --cap-add=NET_ADMIN --device=/dev/net/tun \
+            docker run --cap-add=NET_ADMIN \
               -e "CI=$CI" \
               -e "CIRCLE_BRANCH=$CIRCLE_BRANCH" \
               -e "AWS_ACCESS_KEY=$AWS_ACCESS_KEY" \
               -e "AWS_SECRET_KEY=$AWS_SECRET_KEY" \
+              -v /dev/net:/dev/net \
               -v "$(pwd)"/../project:/home/circleci/project \
               --name node-vpn \
               661123053817.dkr.ecr.eu-central-1.amazonaws.com/procom-node-vpn:latest \
